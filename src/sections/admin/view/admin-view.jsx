@@ -48,7 +48,7 @@ export default function AdminPage() {
         const data = await response.json();
         setUsers(data);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('خطأ في جلب المستخدمين:', error);
       }
     };
 
@@ -107,7 +107,6 @@ export default function AdminPage() {
   const handleAddAdminToggle = () => {
     setIsAddingAdmin(!isAddingAdmin);
     if (isAddingAdmin) {
-      // Reset form and errors when closing
       setNewAdmin({
         name: '',
         phone: '',
@@ -170,20 +169,20 @@ export default function AdminPage() {
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        {i18n.language === 'ar' ? t('admins') : 'Admin'}
+        {i18n.language === 'ar' ? t('admins') : 'المسؤولين'}
         <Button
           variant="contained"
           onClick={handleAddAdminToggle}
           sx={{ ml: 2 }}
         >
-          {isAddingAdmin ? t('cancel') : t('add_admin')}
+          {isAddingAdmin ? t('cancel') : 'إضافة مسؤول'}
         </Button>
       </Typography>
 
       {isAddingAdmin && (
         <Card sx={{ p: 2, mb: 2 }}>
           <TextField
-            label={t('admin_name')}
+            label="اسم المسؤول"
             name="name"
             value={newAdmin.name}
             onChange={handleInputChange}
@@ -192,7 +191,7 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <TextField
-            label={t('admin_phone')}
+            label="هاتف المسؤول"
             name="phone"
             value={newAdmin.phone}
             onChange={handleInputChange}
@@ -201,7 +200,7 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <TextField
-            label={t('admin_status')}
+            label="حالة المسؤول"
             name="status"
             value={newAdmin.status}
             onChange={handleInputChange}
@@ -210,21 +209,21 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputLabel>{t('role')}</InputLabel>
+            <InputLabel>الدور</InputLabel>
             <Select
               value={newAdmin.role}
               onChange={handleRoleChange}
               name="role"
             >
-              <MenuItem value="admin">{t('admin')}</MenuItem>
-              <MenuItem value="manager">{t('manager')}</MenuItem>
+              <MenuItem value="admin">مسؤول</MenuItem>
+              <MenuItem value="manager">مدير</MenuItem>
             </Select>
           </FormControl>
           <Button
             variant="contained"
             onClick={handleAddAdmin}
           >
-            {t('add')}
+            إضافة
           </Button>
         </Card>
       )}
@@ -246,10 +245,10 @@ export default function AdminPage() {
               onRequestSort={handleSort}
               onSelectAllClick={handleSelectAllClick}
               headLabel={[
-                { id: 'name', label: t('name_t') },
-                { id: 'phone', label: t('phone_t') },
-                { id: 'status', label: t('status_t') },
-                { id: 'role', label: t('role_t') }
+                { id: 'name', label: 'الاسم' },
+                { id: 'phone', label: 'الهاتف' },
+                { id: 'status', label: 'الحالة' },
+                { id: 'role', label: 'الدور' }
               ]}
             />
             <TableBody>
@@ -288,7 +287,7 @@ export default function AdminPage() {
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        labelRowsPerPage={t('rows_per_page_t')}
+        labelRowsPerPage="الصفوف لكل صفحة"
       />
     </Card>
   </Container>

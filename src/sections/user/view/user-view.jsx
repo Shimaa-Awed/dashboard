@@ -1,4 +1,3 @@
-
 import { useTranslation } from 'react-i18next';
 
 import Card from '@mui/material/Card';
@@ -9,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 import Scrollbar from 'src/components/scrollbar';
 
@@ -29,30 +28,24 @@ export default function UserPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://backend.sakanijo.com/admin/users')
+        const response = await fetch('https://backend.sakanijo.com/admin/users');
         
         const data = await response.json();
         setUsers(data);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('خطأ في جلب المستخدمين:', error);
       }
     };
 
     fetchUsers();
   }, []);
 
-
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSort = (event, id) => {
@@ -115,7 +108,7 @@ export default function UserPage() {
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        {t('users_title_t')}
+        {t(' المستخدمين')}
       </Typography>
 
       <Card>
@@ -136,9 +129,9 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: t('name_t') },
-                  { id: 'phone', label: t('phone_t') },
-                  { id: 'status', label: t('status_t') },
+                  { id: 'name', label: t('اسم') },
+                  { id: 'phone', label: t('هاتف') },
+                  { id: 'status', label: t('حالة') },
                   { id: '' },
                 ]}
               />
@@ -177,7 +170,7 @@ export default function UserPage() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage={t('rows_per_page_t')}
+          labelRowsPerPage={t('عدد الصفوف في الصفحة')}
         />
       </Card>
     </Container>
