@@ -8,32 +8,32 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'nav_dashboard_t',
+    title: 'لوحه التحكم',
     path: '/',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'nav_users_t',
+    title: 'المستخدمون',
     path: '/user',
     icon: icon('ic_user'),
   },
   {
-    title: 'nav_product_t',
+    title: 'المنتجات',
     path: '/products',
     icon: icon('ic_cart'),
   },
   {
-    title: 'Admin',
+    title: 'مسؤل',
     path: '/admin',
     icon: icon('ic_user'),
   },
   {
-    title: 'nav_product_info_t',
+    title: 'حول المنتج',
     path: '/product_info',
     icon: icon('ic_cart'),
   },
   {
-    title: "nav_booking_t",
+    title: "الحجز",
     path: "/booking",
     icon: icon('')
   },
@@ -43,7 +43,7 @@ const navConfig = [
     icon: icon('ic_lock'),
   },
   {
-    title: 'Not found',
+    title: 'لا يوجد',
     path: '/404',
     icon: icon('ic_disabled'),
   },

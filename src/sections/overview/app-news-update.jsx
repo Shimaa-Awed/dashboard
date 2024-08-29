@@ -39,7 +39,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         >
-          {t('view_all_t')}
+          {t('عرض الكل')}
         </Button>
       </Box>
     </Card>
