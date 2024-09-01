@@ -277,4 +277,8 @@ export default function ProductInfoView() {
                         <BookingListPopover open={bookingInfoOpen} onClose={handleBookingClose} />
                       </Container>
                     );
+<<<<<<< HEAD
                   }  
+=======
+                  }  
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65

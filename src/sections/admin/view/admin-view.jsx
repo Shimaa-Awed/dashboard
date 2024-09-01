@@ -48,7 +48,11 @@ export default function AdminPage() {
         const data = await response.json();
         setUsers(data);
       } catch (error) {
+<<<<<<< HEAD
         console.error('Error fetching users:', error);
+=======
+        console.error('خطأ في جلب المستخدمين:', error);
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
       }
     };
 
@@ -107,7 +111,10 @@ export default function AdminPage() {
   const handleAddAdminToggle = () => {
     setIsAddingAdmin(!isAddingAdmin);
     if (isAddingAdmin) {
+<<<<<<< HEAD
       // Reset form and errors when closing
+=======
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
       setNewAdmin({
         name: '',
         phone: '',
@@ -170,20 +177,32 @@ export default function AdminPage() {
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+<<<<<<< HEAD
         {i18n.language === 'ar' ? t('admins') : 'Admin'}
+=======
+        {i18n.language === 'ar' ? t('admins') : 'المسؤولين'}
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
         <Button
           variant="contained"
           onClick={handleAddAdminToggle}
           sx={{ ml: 2 }}
         >
+<<<<<<< HEAD
           {isAddingAdmin ? t('cancel') : t('add_admin')}
+=======
+          {isAddingAdmin ? t('cancel') : 'إضافة مسؤول'}
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
         </Button>
       </Typography>
 
       {isAddingAdmin && (
         <Card sx={{ p: 2, mb: 2 }}>
           <TextField
+<<<<<<< HEAD
             label={t('admin_name')}
+=======
+            label="اسم المسؤول"
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
             name="name"
             value={newAdmin.name}
             onChange={handleInputChange}
@@ -192,7 +211,11 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <TextField
+<<<<<<< HEAD
             label={t('admin_phone')}
+=======
+            label="هاتف المسؤول"
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
             name="phone"
             value={newAdmin.phone}
             onChange={handleInputChange}
@@ -201,7 +224,11 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <TextField
+<<<<<<< HEAD
             label={t('admin_status')}
+=======
+            label="حالة المسؤول"
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
             name="status"
             value={newAdmin.status}
             onChange={handleInputChange}
@@ -210,21 +237,34 @@ export default function AdminPage() {
             sx={{ m: 2 }}
           />
           <FormControl fullWidth sx={{ mb: 2 }}>
+<<<<<<< HEAD
             <InputLabel>{t('role')}</InputLabel>
+=======
+            <InputLabel>الدور</InputLabel>
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
             <Select
               value={newAdmin.role}
               onChange={handleRoleChange}
               name="role"
             >
+<<<<<<< HEAD
               <MenuItem value="admin">{t('admin')}</MenuItem>
               <MenuItem value="manager">{t('manager')}</MenuItem>
+=======
+              <MenuItem value="admin">مسؤول</MenuItem>
+              <MenuItem value="manager">مدير</MenuItem>
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
             </Select>
           </FormControl>
           <Button
             variant="contained"
             onClick={handleAddAdmin}
           >
+<<<<<<< HEAD
             {t('add')}
+=======
+            إضافة
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
           </Button>
         </Card>
       )}
@@ -246,10 +286,17 @@ export default function AdminPage() {
               onRequestSort={handleSort}
               onSelectAllClick={handleSelectAllClick}
               headLabel={[
+<<<<<<< HEAD
                 { id: 'name', label: t('name_t') },
                 { id: 'phone', label: t('phone_t') },
                 { id: 'status', label: t('status_t') },
                 { id: 'role', label: t('role_t') }
+=======
+                { id: 'name', label: 'الاسم' },
+                { id: 'phone', label: 'الهاتف' },
+                { id: 'status', label: 'الحالة' },
+                { id: 'role', label: 'الدور' }
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
               ]}
             />
             <TableBody>
@@ -288,7 +335,11 @@ export default function AdminPage() {
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}
+<<<<<<< HEAD
         labelRowsPerPage={t('rows_per_page_t')}
+=======
+        labelRowsPerPage="الصفوف لكل صفحة"
+>>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
       />
     </Card>
   </Container>
