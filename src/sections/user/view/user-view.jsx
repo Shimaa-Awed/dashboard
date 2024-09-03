@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
 import { useTranslation } from 'react-i18next';
 
 import Card from '@mui/material/Card';
@@ -12,11 +9,7 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-<<<<<<< HEAD
 import { useEffect, useState} from 'react';
-=======
-import { useEffect, useState } from 'react';
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
 
 import Scrollbar from 'src/components/scrollbar';
 
@@ -42,18 +35,14 @@ export default function UserPage() {
         const data = await response.json();
         setUsers(data);
       } catch (error) {
-<<<<<<< HEAD
-        console.error('Error fetching users:', error);
-=======
+
         console.error('خطأ في جلب المستخدمين:', error);
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
       }
     };
 
     fetchUsers();
   }, []);
 
-<<<<<<< HEAD
 
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
@@ -66,14 +55,7 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-=======
-  const { t } = useTranslation();
-  const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSort = (event, id) => {
@@ -136,11 +118,8 @@ export default function UserPage() {
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5 }}>
-<<<<<<< HEAD
-        {t('users_title_t')}
-=======
+
         {t(' المستخدمين')}
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
       </Typography>
 
       <Card>
@@ -161,15 +140,10 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-<<<<<<< HEAD
-                  { id: 'name', label: t('name_t') },
-                  { id: 'phone', label: t('phone_t') },
-                  { id: 'status', label: t('status_t') },
-=======
+
                   { id: 'name', label: t('اسم') },
                   { id: 'phone', label: t('هاتف') },
                   { id: 'status', label: t('حالة') },
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
                   { id: '' },
                 ]}
               />
@@ -208,17 +182,11 @@ export default function UserPage() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
-<<<<<<< HEAD
-          labelRowsPerPage={t('rows_per_page_t')}
-=======
+
           labelRowsPerPage={t('عدد الصفوف في الصفحة')}
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65
         />
       </Card>
     </Container>
   );
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> abff067b1d41068b6a0906e5a5c50f95061caf65

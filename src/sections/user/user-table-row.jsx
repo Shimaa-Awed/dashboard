@@ -37,7 +37,7 @@ export default function UserTableRow({ selected, name, avatarUrl, phone, status,
     
     if (confirmed) {
         try {
-            const res = await axios.delete(deleteUserApi);
+            const res = await axios.post(deleteUserApi);
             if (res.status === 200) {
                 console.log("تم حذف المستخدم بنجاح");
             }
