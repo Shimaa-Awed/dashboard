@@ -57,7 +57,16 @@ export default  function ProductsView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">{t('عنوان المنتجات')}</Typography>
 
-    
+    {/*  <Button
+          variant="contained"
+          onClick={handleOpenPopover}
+          color="inherit"
+          dir="ltr"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+        >
+          {t('منتج جديد')}
+        </Button>
+   */}
       </Stack>
 
       <Stack
@@ -67,6 +76,7 @@ export default  function ProductsView() {
         justifyContent="flex-end"
         sx={{ mb: 5 }}
       >
+     
         <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
           <ProductFilters
             openFilter={openFilter}
