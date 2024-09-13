@@ -1,3 +1,4 @@
+
 import { useTranslation } from 'react-i18next';
 
 import Card from '@mui/material/Card';
@@ -8,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 
 import Scrollbar from 'src/components/scrollbar';
 
@@ -28,11 +29,13 @@ export default function UserPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+
         const response = await fetch('https://backend.sakanijo.com/admin/users');
         
         const data = await response.json();
         setUsers(data);
       } catch (error) {
+
         console.error('خطأ في جلب المستخدمين:', error);
       }
     };
@@ -40,12 +43,19 @@ export default function UserPage() {
     fetchUsers();
   }, []);
 
+
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
+
   const [order, setOrder] = useState('asc');
+
   const [selected, setSelected] = useState([]);
+
   const [orderBy, setOrderBy] = useState('name');
+
   const [filterName, setFilterName] = useState('');
+
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSort = (event, id) => {
@@ -104,10 +114,15 @@ export default function UserPage() {
   });
 
   const notFound = !dataFiltered.length && !!filterName;
-
+  
+  const handleDeleteUser = (id) => {
+    setUsers(users.filter(user => user.id !== id));
+    console.log(`تم حذف المستخدم ذو المعرف: ${id}`);
+  };
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5 }}>
+
         {t(' المستخدمين')}
       </Typography>
 
@@ -129,6 +144,7 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
+
                   { id: 'name', label: t('اسم') },
                   { id: 'phone', label: t('هاتف') },
                   { id: 'status', label: t('حالة') },
@@ -148,6 +164,7 @@ export default function UserPage() {
                       avatarUrl={row.avatarUrl}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
+                      onDelete={handleDeleteUser}
                     />
                   ))}
 
@@ -170,9 +187,11 @@ export default function UserPage() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+
           labelRowsPerPage={t('عدد الصفوف في الصفحة')}
         />
       </Card>
     </Container>
   );
+
 }

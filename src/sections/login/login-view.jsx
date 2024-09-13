@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -14,6 +11,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
+import axios from "axios"
 
 import { bgGradient } from 'src/theme/css';
 
@@ -24,24 +22,63 @@ import Iconify from 'src/components/iconify';
 
 export default function LoginView() {
   const theme = useTheme();
-
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
+  const [loading, setLoading] = useState(false); // State to manage loading state
 
-  const handleClick = () => {
-    router.push('/dashboard');
+  const handleClick = async () => {
+    setLoading(true);
+    setErrorMessage(''); // Reset error message
+
+    try {
+      const response = await axios.post('https://backend.sakanijo.com/api/admin/login', {
+        phone,
+        password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+    
+      const data = response.data;
+    
+      if (response.status === 200) {
+        // Save token to localStorage
+        localStorage.setItem('token', data.token);
+        router.push('/');
+      } else {
+        // Handle login error (e.g., show an error message)
+        setErrorMessage(data.message || 'فشل تسجيل الدخول');
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('حدث خطأ في الاتصال بالخادم');
+    } finally {
+      setLoading(false);
+    }
+
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField
+          name="phone"
+          label="رقم الهاتف"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
 
         <TextField
           name="password"
-          label="Password"
+          label="كلمة المرور"
           type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -52,12 +89,13 @@ export default function LoginView() {
             ),
           }}
         />
-      </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
+        {/* Error message display */}
+        {errorMessage && (
+          <Typography variant="body2" color="error">
+            {errorMessage}
+          </Typography>
+        )}
       </Stack>
 
       <LoadingButton
@@ -67,8 +105,9 @@ export default function LoginView() {
         variant="contained"
         color="inherit"
         onClick={handleClick}
+        loading={loading}
       >
-        Login
+        تسجيل الدخول
       </LoadingButton>
     </>
   );
@@ -99,52 +138,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
-
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
+          <Typography variant="h4">تسجيل الدخول إلى سكني جو</Typography>
 
           {renderForm}
         </Card>

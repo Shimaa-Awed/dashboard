@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Container from '@mui/material/Container';
@@ -12,7 +13,50 @@ import AppWidgetSummary from '../app-widget-summary';
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const [card, setCard] = useState({
+    totalUsers: 0,
+    totalAdvertient: 0,
+    addsnotaprovi: 0,
+    bookingNumbe: 0,
+  });
+
+  const [chart, setChart] = useState({
+    labels: [],
+    series: [],
+  });
+
+  const [currentVisitsSeries, setCurrentVisitsSeries] = useState([]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`https://backend.sakanijo.com/admin/counts`);
+        const data = await response.json();
+        setCard(data);
+
+        const response2 = await fetch(`https://backend.sakanijo.com/places/category-counts`);
+        const data2 = await response2.json();
+
+        // تحديث الرسم البياني بناءً على البيانات المستخرجة
+        setChart({
+          labels: data2.labels || [],
+          series: data2.series || [],
+        });
+        
+      
+
+        const formattedData = Object.entries(data2).map(([label, value]) => ({ label, value }));
+        setCurrentVisitsSeries(formattedData);
+
+      } catch (error) {
+        console.error('Error fetching card:', error);
+      }
+    };
+    fetchProduct();
+  }, []);
+
   const { t } = useTranslation();
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -23,7 +67,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title={t('اجمالي الاعلانات')}
-            total={714000}
+            total={card.totalAdvertient}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/advertising.png" />}
           />
@@ -32,7 +76,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title={t('اجمالي المستخدمين')}
-            total={1352831}
+            total={card.totalUsers}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/group.png" />}
           />
@@ -41,7 +85,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title={t('تحتاج الي الموافقه ')}
-            total={1723315}
+            total={card.addsnotaprovi}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/search.png" />}
           />
@@ -50,7 +94,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title={t('رقم الحجز')}
-            total={234}
+            total={card.bookingNumbe}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/reservation.png" />}
           />
@@ -61,7 +105,7 @@ export default function AppView() {
             title={t('انشطه الموقع ')}
             subheader={`(+43%) ${t('مقارنه -بالعام -الماضي')}`}
             chart={{
-              labels: [
+              labels: chart.labels.length > 0 ? chart.labels : [
                 '01/01/2003',
                 '02/01/2003',
                 '03/01/2003',
@@ -74,7 +118,7 @@ export default function AppView() {
                 '10/01/2003',
                 '11/01/2003',
               ],
-              series: [
+              series: chart.series.length > 0 ? chart.series : [
                 {
                   name: t('الحجوزات'),
                   type: 'column',
@@ -93,7 +137,7 @@ export default function AppView() {
                   fill: 'solid',
                   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                 },
-              ],
+              ]
             }}
           />
         </Grid>
@@ -102,7 +146,7 @@ export default function AppView() {
           <AppCurrentVisits
             title={t('مجموع الاعلانات')}
             chart={{
-              series: [
+              series: currentVisitsSeries.length > 0 ? currentVisitsSeries : [
                 { label: 'المزارع', value: 2750 },
                 { label: 'الأراضي', value: 5375 },
                 { label: 'الشقق', value: 4107 },
@@ -112,46 +156,6 @@ export default function AppView() {
             }}
           />
         </Grid>
-
-        {/* <Grid xs={12}>
-          <AppConversionRates
-            title="معدلات التحويل"
-            subheader={`(+43%) ${t('compared_to_last_year')}`}
-            chart={{
-              series: [
-                { label: 'إيطاليا', value: 400 },
-                { label: 'اليابان', value: 430 },
-                { label: 'الصين', value: 448 },
-                { label: 'كندا', value: 470 },
-                { label: 'فرنسا', value: 540 },
-                { label: 'ألمانيا', value: 580 },
-                { label: 'كوريا الجنوبية', value: 690 },
-                { label: 'هولندا', value: 1100 },
-                { label: 'الولايات المتحدة', value: 1200 },
-                { label: 'المملكة المتحدة', value: 1380 },
-              ],
-            }}
-          />
-        </Grid> */}
-
-        <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title={t('تحديثات جديده')}
-            list={[]}
-            /*
-             * Each List item should have these.
-             * id: string | number // uuid or just a numeric one
-             * title: string
-             * description: string
-             * image: string
-             * postedAt: string
-             */
-          />
-        </Grid>
-
-        {/* <Grid xs={12} md={6} lg={8}>
-          <AppTasks title="المهام" list={[{ id: '1', name: 'أضف الشعار' }]} />
-        </Grid> */}
       </Grid>
     </Container>
   );
