@@ -19,6 +19,7 @@ import {
 import Iconify from 'src/components/iconify';
 import ProductInfo from '../product-info';
 import BookingListPopover from '../BookingListPopover';
+import axios from 'axios';
 
 export default function ProductInfoView() {
   const [booking, setBooking] = useState([]);
@@ -98,7 +99,33 @@ export default function ProductInfoView() {
     handleCloseMenu();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    try{
+      const repsone = await axios.delete(`https://backend.sakanijo.com/places/${+productId}`) 
+      if (repsone.status === 200) {
+        alert('تم الحذف الاعلان')
+         navigate ('/products');
+      } 
+  
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+    const handleApprove = async () => {
+      try{
+        const repsone = await axios.put(`https://backend.sakanijo.com/places/${+productId}/approve`) 
+        if (repsone.status === 200) {
+         alert('تم التعديل بنجاح')
+        } 
+    
+      }
+      catch(error) {
+        console.log(error)
+      }
+    
+     
+    
     // Implement your delete logic here
     console.log('Delete clicked');
     handleCloseMenu();
@@ -108,7 +135,7 @@ export default function ProductInfoView() {
   const id = open ? 'more-options-popover' : undefined;
 
   if (!products) navigate('/404', { state: 300 });
-
+ console.log('eeeeee')
   const photos = products?.photos ? products.photos.split(',') : [];
   const allPhotos = photos.map(photo => ({
     original: `https://backend.sakanijo.com/api/images/${encodeURIComponent(products.folderName)}/${encodeURIComponent(photo)}`
@@ -172,8 +199,8 @@ export default function ProductInfoView() {
             <Grid item xs={12 / 3}>
               <ProductInfo
                 name={t('الحاله')}
-                value={products.status === 'In-sale' ? t('in-sale_t') : t('sold_t')}
-                valueColor={products.status === true ? 'success.main' : 'error.main'}
+                value={products.active ? t('نشط') : t('غير نشط ')}
+                valueColor={products.active  ? 'success.main' : 'error.main'}
               />
             </Grid>
             <Grid item xs={12 / 3}>
@@ -182,7 +209,7 @@ export default function ProductInfoView() {
             <Grid item xs={4}>
               <ProductInfo
                 name={t('موافقه')}
-                value={products.approved ? 'Yes' : 'No'}
+                value={products.approved ? 'مفعله' : 'غير مفعله'}
                 valueColor={products.approved ? 'success.main' : 'warning.main'}
               />
             </Grid>
@@ -231,8 +258,11 @@ export default function ProductInfoView() {
                   horizontal: 'right',
                 }}
               >
-                <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                <MenuItem onClick={handleDelete}>Delete</MenuItem>
+              
+                <MenuItem onClick={handleDelete}>حذف</MenuItem>
+                <MenuItem onClick={handleApprove}>
+                {products.approved ? 'ايقاف الاعلان' :'تفعيل الاعلان'}
+                </MenuItem>
               </Popover>
 
               <Popover

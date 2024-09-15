@@ -7,7 +7,7 @@ const IndexPage = lazy(() => import('src/pages/app'));
 const UserPage = lazy(() => import('src/pages/user'));
 const LoginPage = lazy(() => import('src/pages/login'));
 const ProductsPage = lazy(() => import('src/pages/products'));
-const ProductInfoPage = lazy(() => import('src/pages/product_info'));
+const ProductInfoPage = lazy(() => import('src/pages/prodect-info'));
 const BookingPage = lazy(() => import('src/pages/booking'));
 const Page404 = lazy(() => import('src/pages/page-not-found'));
 const AdminPage = lazy(() => import('src/pages/admin'));
