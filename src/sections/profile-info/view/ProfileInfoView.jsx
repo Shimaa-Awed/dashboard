@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/system';
-
+import profile from "../profile.jpg"
 // استخدام styled داخل الـ JSX
 const ProfileInfoPage = () => {
   const ProfileImage = styled('img')({
@@ -21,7 +21,7 @@ const ProfileInfoPage = () => {
 
   return (
     <ProfileContainer elevation={3}>
-      <ProfileImage src="pexels-jeffreyreed-769745.jpg" alt="User Profile" />
+      <ProfileImage src={profile }alt="User Profile" />
       <Typography variant="h5" sx={{ mt: 2 }}>
         الاسم: محمد علي
       </Typography>

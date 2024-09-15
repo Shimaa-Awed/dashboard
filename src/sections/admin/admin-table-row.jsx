@@ -17,7 +17,7 @@ import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ selected, name, avatarUrl, phone, status, handleClick,id}) {
+export default function UserTableRow({ selected, name,onDelete, avatarUrl, phone, status, handleClick,id}) {
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -31,7 +31,7 @@ export default function UserTableRow({ selected, name, avatarUrl, phone, status,
  
 
   const handleDeleteUser = async () => {
-    const deleteUserApi = `https://backend.sakanijo.com/admin/delete/users/${id}`;
+    const deleteUserApi = `https://backend.sakanijo.com/admins/${id}`;
 
     const confirmed = window.confirm("هل أنت متأكد من حذف هذا المستخدم؟");
     
@@ -40,6 +40,7 @@ export default function UserTableRow({ selected, name, avatarUrl, phone, status,
             const res = await axios.delete(deleteUserApi);
             if (res.status === 200) {
                 console.log("تم حذف المستخدم بنجاح");
+                onDelete(id);
             }
         } catch (error) {
             console.error("خطأ أثناء حذف المستخدم:", error);
@@ -87,10 +88,7 @@ export default function UserTableRow({ selected, name, avatarUrl, phone, status,
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+       
        
         <MenuItem onClick={() => handleDeleteUser()} sx={{ color: 'error.main' }}>
         <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />

@@ -19,6 +19,7 @@ import UserTableRow from '../admin-table-row';
 import UserTableHead from '../admin-table-head';
 import TableEmptyRows from '../table-empty-row';
 import UserTableToolbar from '../admin-table-toolbar';
+import axios from "axios"
 import { emptyRows, applyFilter, getComparator } from './utils';
 
 // ----------------------------------------------------------------------
@@ -36,7 +37,7 @@ export default function AdminPage() {
   const [newAdmin, setNewAdmin] = useState({
     name: '',
     phone: '',
-    status: '',
+    password:'',
     role: 'admin'
   });
   const [errors, setErrors] = useState({});  
@@ -44,7 +45,7 @@ export default function AdminPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://backend.sakanijo.com/admin/users');
+        const response = await fetch('https://backend.sakanijo.com/admins');
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -55,6 +56,10 @@ export default function AdminPage() {
     fetchUsers();
   }, []);
 
+  const handleDeleteUser = (id) => {
+    setUsers(users.filter(user => user.id !== id));
+    console.log(`تم حذف المستخدم ذو المعرف: ${id}`);
+  };
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -138,17 +143,31 @@ export default function AdminPage() {
     if (!newAdmin.name) newErrors.name = t('error_name_required');
     if (!newAdmin.phone) newErrors.phone = t('error_phone_required');
     if (newAdmin.phone.length < 10) newErrors.phone = t('error_phone_length');
-    if (!newAdmin.status) newErrors.status = t('error_status_required');
+ 
     return newErrors;
   };
 
-  const handleAddAdmin = () => {
+  const handleAddAdmin = async() => {
+
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-    setUsers([...users, { id: Date.now(), ...newAdmin }]); 
+    try{
+      const respone= await axios.post(`https://backend.sakanijo.com/admins`,newAdmin)
+      console.log(respone);
+      if(respone.status === 201){
+        setUsers([...users, { id: respone.data.adminId, ...newAdmin }]); 
+       alert('تم الاضافه بنجاح')
+      }
+    }
+    catch(error){
+      console.log(error);
+    }
+
+ 
+   
     setNewAdmin({
       name: '',
       phone: '',
@@ -196,6 +215,15 @@ export default function AdminPage() {
           />
           <TextField
 
+            label='كلمه المرور'
+            name="password"
+            value={newAdmin.password}
+            onChange={handleInputChange}
+           
+            sx={{ m: 2 }}
+          />
+          <TextField
+
             label="هاتف المسؤول"
             name="phone"
             value={newAdmin.phone}
@@ -204,15 +232,7 @@ export default function AdminPage() {
             helperText={errors.phone}
             sx={{ m: 2 }}
           />
-          <TextField
-            label="حالة المسؤول"
-            name="status"
-            value={newAdmin.status}
-            onChange={handleInputChange}
-            error={!!errors.status}
-            helperText={errors.status}
-            sx={{ m: 2 }}
-          />
+       
           <FormControl fullWidth sx={{ mb: 2 }}>
 
             <InputLabel>الدور</InputLabel>
@@ -221,8 +241,8 @@ export default function AdminPage() {
               onChange={handleRoleChange}
               name="role"
             >
-              <MenuItem value="admin">مسؤول</MenuItem>
-              <MenuItem value="manager">مدير</MenuItem>
+              <MenuItem value="admin">مدير</MenuItem>
+              <MenuItem value="manager">مشرف</MenuItem>
             </Select>
           </FormControl>
           <Button
@@ -254,8 +274,8 @@ export default function AdminPage() {
 
                 { id: 'name', label: 'الاسم' },
                 { id: 'phone', label: 'الهاتف' },
-                { id: 'status', label: 'الحالة' },
-                { id: 'role', label: 'الدور' }
+                { id: 'status', label: 'الحالة' }
+          
               ]}
             />
             <TableBody>
@@ -266,12 +286,13 @@ export default function AdminPage() {
                     key={row.id}
                     id={row.id}
                     name={row.name}
-                    status={row.status}
+                    status={row.role}
                     phone={row.phone}
                     avatarUrl={row.avatarUrl}
                     role={row.role}
                     selected={selected.indexOf(row.name) !== -1}
                     handleClick={(event) => handleClick(event, row.name)}
+                    onDelete={handleDeleteUser}
                   />
                 ))}
 
